@@ -1,5 +1,5 @@
 import json
-def hanlder(event , context):
+def handler(event , context):
   return {
     statusCode: '400',
     body: 'successfully'
