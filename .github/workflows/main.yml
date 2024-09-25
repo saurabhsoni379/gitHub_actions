@@ -7,6 +7,10 @@ jobs:
   my_job:
     name: Deploy to Staging
     runs-on: ubuntu-latest
+    env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        REPOSITORY: ${{ secrets.REPO_NAME }}
+        IMAGE_TAG: "latest"
     steps:
     
     - name: Checkout
@@ -25,10 +29,6 @@ jobs:
 
     - name: Build, Tag, and Push the Image to Amazon ECR
       id: build-image
-      env:
-        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        REPOSITORY: ${{ secrets.REPO_NAME }}
-        IMAGE_TAG: "latest"
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
