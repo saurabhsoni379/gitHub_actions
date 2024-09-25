@@ -35,4 +35,4 @@ jobs:
 
     - name: Update Lambda Function
       run: |
-        aws lambda update-function-code --function-name git-hub-actions-lambda-fun --image-uri $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        aws lambda update-function-code --function-name git-hub-actions-lambda-fun --image-uri $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG 
