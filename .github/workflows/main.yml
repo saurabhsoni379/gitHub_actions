@@ -30,9 +30,9 @@ jobs:
         REPOSITORY: ${{ secrets.REPO_NAME }}
         IMAGE_TAG: ${{ github.run_number }}
       run: |
-        docker buildx build --platform linux/amd64 -t $REGISTRY/$REPOSITORY:$IMAGE_TAG  
-        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG  
+        docker buildx build --platform linux/amd64 -t $REGISTRY/$REPOSITORY:latest 
+        docker push $REGISTRY/$REPOSITORY:latest  
 
     - name: Update Lambda Function
       run: |
-        aws lambda update-function-code --function-name git-hub-actions-lambda-fun --image-uri $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        aws lambda update-function-code --function-name git-hub-actions-lambda-fun --image-uri $ECR_REGISTRY/$ECR_REPOSITORY:latest
