@@ -8,9 +8,8 @@ jobs:
     name: Deploy to Staging
     runs-on: ubuntu-latest
     env:
-        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: ${{ secrets.REPO_NAME }}
-        IMAGE_TAG: "latest"
+        IMAGE_TAG: ${{ github.run_id }}
     steps:
     
     - name: Checkout
@@ -29,11 +28,15 @@ jobs:
 
     - name: Build, Tag, and Push the Image to Amazon ECR
       id: build-image
+      env:
+       REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
     - name: Update Lambda Function
+      env:
+        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
         echo $REGISTRY
         aws lambda update-function-code --function-name git-hub-actions-lambda-fun --image-uri $REGISTRY/$REPOSITORY:$IMAGE_TAG 
