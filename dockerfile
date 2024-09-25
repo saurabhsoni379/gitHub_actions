@@ -1,3 +1,3 @@
-FROM python3
+FROM python:latest
 COPY . .
 CMD [ "main.handler" ]  
