@@ -35,4 +35,5 @@ jobs:
 
     - name: Update Lambda Function
       run: |
+        echo $REGISTRY
         aws lambda update-function-code --function-name git-hub-actions-lambda-fun --image-uri $REGISTRY/$REPOSITORY:$IMAGE_TAG 
